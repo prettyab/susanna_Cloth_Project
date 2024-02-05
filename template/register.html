@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="login-register-area pt-100px pb-100px">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                <div class="login-register-wrapper">
+                    <a data-bs-toggle="tab" href="#lg2">
+                        <h4 style="text-align: center;">Register</h4>
+                    </a>
+                    <div id="lg2" class="tab-pane">
+                        <div class="login-form-container">
+                            <div class="login-register-form">
+                                <form id="registerForm" action="{% url 'register' %}" method="post" onsubmit="return validateForm()">
+                                    {% csrf_token %}
+                                    <input type="text" name="username" placeholder="Username" />
+                                    <input type="text" name="first_name" placeholder="First Name" />
+                                    <input type="text" name="last_name" placeholder="Last Name" />
+                                    <input name="email" id="Email" placeholder="Email" type="email" />
+                                    <input type="password" id="Password" name="pass1" placeholder="Password" />
+                                    <input type="password" id="confirmPassword" name="pass2" placeholder="Confirm Password" />
+
+                                    <div class="button-box">
+                                        <div class="login-toggle-btn">
+                                            <!-- Any additional content can go here -->
+                                        </div>
+                                    </div>
+
+                                    <div class="button-box">
+                                        <button type="submit"><span>Register</span></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function validateForm() {
+    var password = document.getElementById("Password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+    var email = document.getElementById("Email").value;
+
+    // Password validation
+    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+={}[\]:;<>,.?~\\/-]).*$/;
+    if (!passwordRegex.test(password)) {
+        alert("Password must contain at least one uppercase letter, one lowercase letter, and one symbol.");
+        document.getElementById('Password').focus();
+        return false;
+    }
+
+    // Confirm password validation
+    if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        document.getElementById('confirmPassword').focus();
+        return false;
+    }
+
+    // Email validation
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address.");
+        document.getElementById('Email').focus();
+        return false;
+    }
+
+    return true; // Form submission allowed if all validations pass
+}
+</script>
+
+{% endblock %}
